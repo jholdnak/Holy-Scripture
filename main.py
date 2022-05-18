@@ -1,3 +1,5 @@
+from bs4 import BeautifulSoup
+import requests
 import random
 import os
 
@@ -13,24 +15,36 @@ def verseRead(category):
     print(verse[randNum])
     categoryFile.close()
 
+def verseOfTheDay():
+    page = BeautifulSoup(requests.get("https://www.christianity.com/bible/daily-bible-verse/").content, 'html.parser')
+    verse = page.find('blockquote', attrs={'style': 'font-size:21px'}).text
+    print(verse)
+
 def menu():
     categories = open("categories.txt", "r")
-    print("Welcome to Holy Scripture! From which category would you like to pull your verse from?")
-    for i in range(1, 5):
-        print(str(i) + ".", categories.readline())
-    categories.close()
-    userInput = int(input("Enter a number or press 'Enter' for more categories: "))
-    if userInput >= 1:
-        if userInput == 1:
-            verseRead("Scriptures/encouragement.txt")
-        elif userInput == 2:
-            verseRead("Scriptures/faith.txt")
-        elif userInput == 3:
-            verseRead("Scriptures/peace.txt")
-        elif userInput == 4:
-            verseRead("Scriptures/love.txt")
-    else:
-        quit()
+    print("Welcome to Holy Scripture! What would you like to do?\n1. View a random bible verse\n2. View the Verse of the Day")
+    userInput = int(input("Type your choice then click enter: "))
+    if userInput == 1:
+        clearTerminal()
+        print("Which category would you like to pull a verse from?")
+        for i in range(1, 5):
+            print(str(i) + ".", categories.readline())
+        categories.close()
+        userInput2 = int(input("Enter a number or press 'Enter' for more categories: "))
+        if userInput2 >= 1:
+            if userInput2 == 1:
+                verseRead("encouragement.txt")
+            elif userInput2 == 2:
+                verseRead("Scriptures/faith.txt")
+            elif userInput2 == 3:
+                verseRead("Scriptures/peace.txt")
+            elif userInput2 == 4:
+                verseRead("Scriptures/love.txt")
+        elif userInput2 == "^[":
+            quit()
+    if userInput == 2:
+        clearTerminal()
+        verseOfTheDay()
 
 #Main
 menu()
