@@ -33,7 +33,7 @@ def menu():
         userInput2 = int(input("Enter a number or press 'Enter' for more categories: "))
         if userInput2 >= 1:
             if userInput2 == 1:
-                verseRead("encouragement.txt")
+                verseRead("Scriptures/encouragement.txt")
             elif userInput2 == 2:
                 verseRead("Scriptures/faith.txt")
             elif userInput2 == 3:
